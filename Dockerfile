@@ -62,7 +62,7 @@ RUN apt-get update && \
 		liblapack-dev \
 		libblas-dev \
 		liblapacke-dev \
-		libopenblas-dev
+		libf2c2-dev
 
 
 RUN cd /opt/; wget http://www.netlib.org/clapack/clapack.tgz && \
