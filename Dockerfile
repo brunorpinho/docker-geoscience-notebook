@@ -61,23 +61,56 @@ RUN apt-get update && \
 	apt-get install -y \ 
 		liblapack-dev \
 		libblas-dev \
-		liblapacke-dev \
-		libf2c2-dev
-
-
-RUN cd /opt/; wget http://www.netlib.org/clapack/clapack.tgz && \
-	tar -xvzf clapack.tgz && \
-	cd /opt/CLAPACK*/ && \
-	cd INCLUDE; cp * /usr/local/include/
+		liblapacke-dev
 
 RUN wget http://prdownloads.sourceforge.net/scons/scons-2.5.0.tar.gz && \
 	tar -xvzf scons-2.5.0.tar.gz && \
 	cd scons-2.5.0 && \
 	python2 setup.py install
 
-#RUN git clone https://github.com/hpgl/hpgl.git
-#RUN cd hpgl/src/ && \
-#	bash -c "source activate python2 && scons -j 1" && \
-#	python2 setup.py install
+RUN wget http://ftp.us.debian.org/debian/pool/main/libf/libf2c2/libf2c2_20090411-2_amd64.deb && \
+	dpkg -i libf2c2_20090411-2_amd64.deb
 
-#RUN rm -rf hpgl hpgl-bsd_0.9.9_amd64-py2.7.deb python-central_0.6.17_all.deb scons-2.5.0.tar.gz CLAPACK*
+RUN wget http://ftp.us.debian.org/debian/pool/main/libf/libf2c2/libf2c2-dev_20090411-2_amd64.deb && \
+	dpkg -i libf2c2-dev_20090411-2_amd64.deb
+
+RUN wget http://mirrors.kernel.org/ubuntu/pool/universe/c/clapack/libcblas3_3.2.1+dfsg-1_amd64.deb  && \
+	dpkg -i libcblas3_3.2.1+dfsg-1_amd64.deb
+
+RUN wget http://mirrors.kernel.org/ubuntu/pool/universe/c/clapack/libcblas-dev_3.2.1+dfsg-1_amd64.deb && \
+	dpkg -i libcblas-dev_3.2.1+dfsg-1_amd64.deb
+
+RUN wget http://ftp.us.debian.org/debian/pool/main/c/clapack/libclapack3_3.2.1+dfsg-1_amd64.deb  && \
+	dpkg -i libclapack3_3.2.1+dfsg-1_amd64.deb
+
+RUN wget http://ftp.us.debian.org/debian/pool/main/c/clapack/libclapack-dev_3.2.1+dfsg-1_amd64.deb && \
+	dpkg -i libclapack-dev_3.2.1+dfsg-1_amd64.deb
+
+RUN wget https://mirror.kku.ac.th/ubuntu/ubuntu/pool/main/l/lapack/libtmglib3_3.7.1-1_amd64.deb && \
+	dpkg -i libtmglib3_3.7.1-1_amd64.deb
+
+RUN wget http://ftp.us.debian.org/debian/pool/main/l/lapack/libtmglib-dev_3.7.1-1_amd64.deb && \
+	dpkg -i libtmglib-dev_3.7.1-1_amd64.deb
+
+RUN git clone https://github.com/hpgl/hpgl.git
+
+RUN cd hpgl/src/ && \
+	bash -c "source activate python2 && scons -j 1"
+
+RUN cd hpgl/src/ && \
+	bash -c "source activate python2 && python2 setup.py install"
+
+RUN sudo rm /usr/lib/libf2c.so && sudo ln -s /usr/lib/libf2c.a /usr/lib/libf2c.so
+
+RUN rm -rf hpgl \
+	scons-2.5.0* \
+	libf2c2_20090411-2_amd64.deb \
+	libf2c2-dev_20090411-2_amd64.deb \
+	libtmglib3_3.7.1-1_amd64.deb \
+	libtmglib-dev_3.7.1-1_amd64.deb \
+	libcblas3_3.2.1+dfsg-1_amd64.deb \
+	libcblas-dev_3.2.1+dfsg-1_amd64.deb \
+	libclapack3_3.2.1+dfsg-1_amd64.deb \
+	libclapack-dev_3.2.1+dfsg-1_amd64.deb
+
+USER $NB_USER
