@@ -1,5 +1,8 @@
 FROM jupyter/scipy-notebook
 
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+
 USER $NB_USER
 
 RUN conda config --add channels conda-forge

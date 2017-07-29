@@ -2,8 +2,8 @@
 
 This combines the [Scipy Notebook](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook) with common packages that I use in geosciences.
 
-- Copyright (c) 2001-2015, IPython Development Team
-- Copyright (c) 2015-, Jupyter Development Team
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
 
 ## What it Gives You
 
