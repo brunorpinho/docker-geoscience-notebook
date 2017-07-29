@@ -63,10 +63,9 @@ RUN apt-get update && \
 		libblas-dev \
 		liblapacke-dev
 
-RUN wget http://prdownloads.sourceforge.net/scons/scons-2.5.0.tar.gz && \
-	tar -xvzf scons-2.5.0.tar.gz && \
-	cd scons-2.5.0 && \
-	python2 setup.py install
+RUN apt-get update && \
+	apt-get install -y \ 
+		scons
 
 RUN wget http://ftp.us.debian.org/debian/pool/main/libf/libf2c2/libf2c2_20090411-2_amd64.deb && \
 	dpkg -i libf2c2_20090411-2_amd64.deb
@@ -94,13 +93,13 @@ RUN wget http://ftp.us.debian.org/debian/pool/main/l/lapack/libtmglib-dev_3.7.1-
 
 RUN git clone https://github.com/hpgl/hpgl.git
 
+
+COPY SConstruct hpgl/src/
 RUN cd hpgl/src/ && \
-	bash -c "source activate python2 && scons -j 1"
+	bash -c "source activate python2 && scons -j 4"
 
 RUN cd hpgl/src/ && \
 	bash -c "source activate python2 && python2 setup.py install"
-
-RUN sudo rm /usr/lib/libf2c.so && sudo ln -s /usr/lib/libf2c.a /usr/lib/libf2c.so
 
 RUN rm -rf hpgl \
 	scons-2.5.0* \
