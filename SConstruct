@@ -14,7 +14,7 @@ env = Environment(
 		'tnt_126',
 		'geo_bsd/hpgl',
         'CLAPACK-3.1.1.1/INCLUDE' ],
-	LIBS = ['stdc++', 'libgomp', 'pthread', 'lapack', File('/usr/lib/libf2c.a'), 'tmglib', 'blas'],
+	LIBS = ['stdc++', 'libgomp', 'pthread', 'lapack', 'tmglib', 'blas', File('/usr/lib/libf2c.a')],
 	LIBPATH =  ['CLAPACK-3.1.1.1'],	
 	)
 
