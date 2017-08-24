@@ -108,17 +108,22 @@ RUN rm -rf hpgl \
 	libclapack3_3.2.1+dfsg-1_amd64.deb \
 	libclapack-dev_3.2.1+dfsg-1_amd64.deb
 
-# Install 3D visualization modules
-# TODO
+# Install visualization modules
 
 RUN conda install --quiet --yes -c conda-forge \
 	'pythreejs' \
-	'ipyleaflet' \
 	'folium' \
-	'bqplot'
+	'bqplot' \
+	'cartopy'
 
 RUN conda install --quiet --yes -c conda-forge -p $CONDA_DIR/envs/python2 python=2.7 \
 	'pythreejs' \
-	'ipyleaflet' \
 	'folium' \
-	'bqplot'
+	'bqplot' \
+	'cartopy'
+
+# Install a fortran compiler for f2py
+
+RUN apt-get update && \
+	apt-get install -y \ 
+		gfortran

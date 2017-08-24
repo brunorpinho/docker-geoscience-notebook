@@ -18,3 +18,4 @@ This combines the [Scipy Notebook](https://github.com/jupyter/docker-stacks/tree
 ### TODO
 
 * implement [Mayavi](http://docs.enthought.com/mayavi/mayavi/) for 3D visualizations
+* implement a bash script for the HPGL build;
