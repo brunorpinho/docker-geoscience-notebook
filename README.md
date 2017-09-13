@@ -13,7 +13,8 @@ This combines the [Scipy Notebook](https://github.com/jupyter/docker-stacks/tree
 	[HPGL - High Perfomance Geostatistics Library](https://github.com/hpgl/hpgl),
 	[fatiando](https://github.com/fatiando/fatiando),
 	[mplstereonet](https://github.com/joferkington/mplstereonet),
-	[spectral-python](https://github.com/spectralpython/spectral)
+	[spectral-python](https://github.com/spectralpython/spectral),
+	[PyTorch](http://pytorch.org)
 
 ### TODO
 
