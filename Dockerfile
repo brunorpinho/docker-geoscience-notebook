@@ -127,3 +127,13 @@ RUN conda install --quiet --yes -c conda-forge -p $CONDA_DIR/envs/python2 python
 RUN apt-get update && \
 	apt-get install -y \ 
 		gfortran
+
+# Install PyTorch without CUDA
+
+RUN conda install --quiet --yes -c soumith \
+	'pytorch' \
+	'torchvision' 
+
+RUN conda install --quiet --yes -c soumith -p $CONDA_DIR/envs/python2 python=2.7 \
+	'pytorch' \
+	'torchvision' 
