@@ -1,7 +1,7 @@
-FROM jupyter/scipy-notebook
-
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
+
+FROM jupyter/scipy-notebook:b4dd11e16ae4
 
 USER $NB_USER
 
@@ -11,122 +11,46 @@ RUN conda install --quiet --yes \
 	'geos=3.5*' \
 	'gdal=2.1*'
 
-RUN pip3 install -I fiona --no-binary fiona
-
 RUN conda install --quiet --yes \
 	'shapely=1.5*' \
 	'rasterio' \
+	'fiona' \
 	'geopandas=0.2*' \
 	'pyproj=1.9*' \
-	'spectral=0.18*'
+	'spectral=0.18*' \
+	'pythreejs' \
+	'folium' \
+	'bqplot' \
+	'cartopy'
 
 RUN conda install --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
 	'geos=3.5*' \
 	'gdal=2.1*'
 
-RUN pip2 install -I fiona --no-binary fiona
-
 RUN conda install --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
 	'shapely=1.5*' \
 	'rasterio' \
+	'fiona' \
 	'geopandas=0.2*' \
 	'pyproj=1.9*' \
 	'spectral=0.18*' \
-	'fatiando=0.5*'
+	'fatiando=0.5*' \
+	'pythreejs' \
+	'folium' \
+	'bqplot' \
+	'cartopy'
 
 RUN conda clean -tipsy
 
 # Install pycpt to use CPT colormaps with matplotlib
+
 RUN pip2 install git+https://github.com/j08lue/pycpt.git
 RUN pip3 install git+https://github.com/j08lue/pycpt.git
 
-# Install mplstereonet for stereonets plots with matplotlib
+# Install mplstereonet for stereonet plottting with matplotlib
+
 RUN pip2 install git+https://github.com/joferkington/mplstereonet.git
 RUN pip3 install git+https://github.com/joferkington/mplstereonet.git
-
-# Install HPGL - High Performance Geostatistics Library
-
-USER root
-
-RUN apt-get update && \
-	apt-get install -y \ 
-		gcc \
-		g++ \
-		libboost-all-dev
-
-RUN apt-get update && \
-	apt-get install -y \ 
-		liblapack-dev \
-		libblas-dev \
-		liblapacke-dev
-
-RUN apt-get update && \
-	apt-get install -y \ 
-		scons
-
-RUN wget http://ftp.us.debian.org/debian/pool/main/libf/libf2c2/libf2c2_20090411-2_amd64.deb && \
-	dpkg -i libf2c2_20090411-2_amd64.deb
-
-RUN wget http://ftp.us.debian.org/debian/pool/main/libf/libf2c2/libf2c2-dev_20090411-2_amd64.deb && \
-	dpkg -i libf2c2-dev_20090411-2_amd64.deb
-
-RUN wget http://mirrors.kernel.org/ubuntu/pool/universe/c/clapack/libcblas3_3.2.1+dfsg-1_amd64.deb  && \
-	dpkg -i libcblas3_3.2.1+dfsg-1_amd64.deb
-
-RUN wget http://mirrors.kernel.org/ubuntu/pool/universe/c/clapack/libcblas-dev_3.2.1+dfsg-1_amd64.deb && \
-	dpkg -i libcblas-dev_3.2.1+dfsg-1_amd64.deb
-
-RUN wget http://ftp.us.debian.org/debian/pool/main/c/clapack/libclapack3_3.2.1+dfsg-1_amd64.deb  && \
-	dpkg -i libclapack3_3.2.1+dfsg-1_amd64.deb
-
-RUN wget http://ftp.us.debian.org/debian/pool/main/c/clapack/libclapack-dev_3.2.1+dfsg-1_amd64.deb && \
-	dpkg -i libclapack-dev_3.2.1+dfsg-1_amd64.deb
-
-RUN wget https://mirror.kku.ac.th/ubuntu/ubuntu/pool/main/l/lapack/libtmglib3_3.7.1-1_amd64.deb && \
-	dpkg -i libtmglib3_3.7.1-1_amd64.deb
-
-RUN wget http://ftp.us.debian.org/debian/pool/main/l/lapack/libtmglib-dev_3.7.1-1_amd64.deb && \
-	dpkg -i libtmglib-dev_3.7.1-1_amd64.deb
-
-RUN git clone https://github.com/hpgl/hpgl.git
-
-COPY SConstruct hpgl/src/
-RUN cd hpgl/src/ && \
-	bash -c "source activate python2 && scons -j 4"
-
-RUN cd hpgl/src/ && \
-	bash -c "source activate python2 && python2 setup.py install"
-
-RUN rm -rf hpgl \
-	scons-2.5.0* \
-	libf2c2_20090411-2_amd64.deb \
-	libf2c2-dev_20090411-2_amd64.deb \
-	libtmglib3_3.7.1-1_amd64.deb \
-	libtmglib-dev_3.7.1-1_amd64.deb \
-	libcblas3_3.2.1+dfsg-1_amd64.deb \
-	libcblas-dev_3.2.1+dfsg-1_amd64.deb \
-	libclapack3_3.2.1+dfsg-1_amd64.deb \
-	libclapack-dev_3.2.1+dfsg-1_amd64.deb
-
-# Install visualization modules
-
-RUN conda install --quiet --yes -c conda-forge \
-	'pythreejs' \
-	'folium' \
-	'bqplot' \
-	'cartopy'
-
-RUN conda install --quiet --yes -c conda-forge -p $CONDA_DIR/envs/python2 python=2.7 \
-	'pythreejs' \
-	'folium' \
-	'bqplot' \
-	'cartopy'
-
-# Install a fortran compiler for f2py
-
-RUN apt-get update && \
-	apt-get install -y \ 
-		gfortran
 
 # Install PyTorch without CUDA
 
@@ -137,3 +61,25 @@ RUN conda install --quiet --yes -c soumith \
 RUN conda install --quiet --yes -c soumith -p $CONDA_DIR/envs/python2 python=2.7 \
 	'pytorch' \
 	'torchvision' 
+
+# Install Mayavi
+
+RUN conda install --quiet --yes -c conda-forge -p $CONDA_DIR/envs/python2 python=2.7 \
+	'vtk' \
+	'pyqt=4' \
+	'mayavi'
+
+RUN conda install --quiet --yes -c conda-forge \
+	'vtk' \
+	'pyqt=4' \
+	'mayavi'
+
+RUN conda clean -tipsy
+
+USER root
+
+# Install a fortran compiler for f2py
+
+RUN apt-get update && \
+	apt-get install -y \ 
+		gfortran
